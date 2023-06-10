@@ -535,7 +535,6 @@ _main() {
 		set -- mariadbd "$@"
 	fi
 
-	echo "start mariadb 1: $@"
 
 	#ENDOFSUBSTITUTIONS
 	# skip setup if they aren't running mysqld or want an option that stops mysqld
@@ -591,7 +590,6 @@ _main() {
 			docker_mariadb_upgrade "$@"
 		fi
 	fi
-	echo "start mariadb 2: $@"
 	exec "$@"
 }
 
@@ -678,12 +676,11 @@ function start_canal() {
         #check start
         checkStart "canal" "nc 127.0.0.1 $adminPort -w 1 -z | wc -l" 30
     else
-			echo "start canal 1"
+
         metricsPort=`perl -le 'print $ENV{"canal.metrics.pull.port"}'`
         if [ -z "$metricsPort" ] ; then
             metricsPort=11112
         fi
-			echo "start canal 2"
 
         destination=`perl -le 'print $ENV{"canal.destinations"}'`
         if [[ "$destination" =~ ',' ]]; then
@@ -698,16 +695,12 @@ function start_canal() {
         fi
 
 
-			echo "start canal 3"
-
 				sh /home/mysql/canal-server/bin/restart.sh
 
-
-    		echo "start canal 4"
         sleep 5
         #check start
         checkStart "canal" "nc -v -z -w 1 127.0.0.1 11112 &> /dev/null && echo 'Port is Open' || echo ''" 30
-				echo "start canal 5"
+
     fi  
 }
 
@@ -746,7 +739,7 @@ chown mysql: /tmp/start.log
 
 echo "==> START ..."
 
-start_mariadb
+start_mariadb "$@"
 # start_exporter
 start_canal
 
