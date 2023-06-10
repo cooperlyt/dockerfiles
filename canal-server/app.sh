@@ -54,11 +54,10 @@ function checkStart() {
     local name=$1
     local cmd=$2
     local timeout=$3
-    echo "check canal $cmd"
     cost=5
     while [ $timeout -gt 0 ]; do
         ST=`eval $cmd`
-        echo "check result: $ST"
+        echo "check $name result: $ST"
         if [ "$ST" == "0" ]; then
             sleep 1
             let timeout=timeout-1
@@ -174,6 +173,8 @@ function start_mariadb(){
 
     bash /home/mysql/mariadb-entrypoint.sh "$@" 1>>/tmp/start.log 2>&1 &
 
+    sleep 5
+    checkStart "mariadb" "nc -v -z -w 1 127.0.0.1 3306 &> /dev/null && echo 'Port is Open' || echo ''" 30
     echo "start mariadb successful ..."
 
 }
