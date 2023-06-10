@@ -152,17 +152,20 @@ RUN set -ex; \
 VOLUME /var/lib/mysql
 
 COPY healthcheck.sh /usr/local/bin/healthcheck.sh
-COPY docker-entrypoint.sh /home/mysql/
+COPY mariadb-entrypoint.sh /home/mysql/
+COPY app.sh /home/mysql/
 
-RUN chown mysql: /home/mysql/docker-entrypoint.sh && \
-	chmod a+x /home/mysql/docker-entrypoint.sh && \
+RUN chown mysql: /home/mysql/mariadb-entrypoint.sh && \
+	chown mysql: /home/mysql/app.sh && \
+	chmod a+x /home/mysql/app.sh && \
+	chmod a+x /home/mysql/mariadb-entrypoint.sh && \
 	# chown mysql: /usr/local/bin/healthcheck.sh && \
 	chown -R mysql: /home/mysql/canal-server
 
 
+USER mysql
 
-
-ENTRYPOINT ["/home/mysql/docker-entrypoint.sh"]
+ENTRYPOINT ["/home/mysql/app.sh"]
 
 EXPOSE 3306 11110 11111 11112
 CMD ["mariadbd"]

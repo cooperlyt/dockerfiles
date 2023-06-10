@@ -55,6 +55,7 @@ LOOPS=0
 while (true); 
 do 
 	gpid=`get_pid "appName=otter-canal" "$pid"`
+	echo "$gpid"
     if [ "$gpid" == "" ] ; then
     	echo "Oook! cost:$LOOPS"
     	`rm $pidfile`
