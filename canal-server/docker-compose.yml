@@ -4,10 +4,10 @@ services:
 
   database:
     image: coopersoft/canal-server:mariadb_10.9.7_1.1.6
-    ports:
-      - "11111:11111"
-      - "11112:11112"
-      - "3306:3306"
+    # ports:
+    #   - "11111:11111"
+    #   - "11112:11112"
+    #   - "3306:3306"
     environment:
       - MARIADB_ROOT_PASSWORD=5257mq
       - TZ=Asia/Shanghai

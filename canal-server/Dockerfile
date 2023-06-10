@@ -38,7 +38,6 @@ RUN set -eux; \
 		zstd ; \
 	savedAptMark="$(apt-mark showmanual)"; \
 	apt-get install -y --no-install-recommends \
-    perl \
 		dirmngr \
 		gpg-agent \
 		wget; \
@@ -70,7 +69,10 @@ RUN mkdir /docker-entrypoint-initdb.d
 
 
 #canal
-RUN mkdir -p /home/mysql/canal-server
+RUN mkdir -p /home/mysql/canal-server && \
+	apt-get update && \
+	apt-get -y install netcat \
+	perl
 
 COPY ./canal.deployer-1.1.6/ /home/mysql/canal-server/
 
@@ -150,11 +152,17 @@ RUN set -ex; \
 VOLUME /var/lib/mysql
 
 COPY healthcheck.sh /usr/local/bin/healthcheck.sh
-COPY docker-entrypoint.sh /usr/local/bin/
+COPY docker-entrypoint.sh /home/mysql/
+
+RUN chown mysql: /home/mysql/docker-entrypoint.sh && \
+	chmod a+x /home/mysql/docker-entrypoint.sh && \
+	# chown mysql: /usr/local/bin/healthcheck.sh && \
+	chown -R mysql: /home/mysql/canal-server
 
 
 
-ENTRYPOINT ["/home/mysql/app.sh"]
+
+ENTRYPOINT ["/home/mysql/docker-entrypoint.sh"]
 
 EXPOSE 3306 11110 11111 11112
 CMD ["mariadbd"]

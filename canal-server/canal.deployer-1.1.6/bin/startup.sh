@@ -30,6 +30,10 @@ if [ -z "$JAVA" ] ; then
   JAVA=$(which java)
 fi
 
+which java
+
+echo "$JAVA"
+
 ALIBABA_JAVA="/usr/alibaba/java/bin/java"
 TAOBAO_JAVA="/opt/taobao/java/bin/java"
 if [ -z "$JAVA" ]; then
