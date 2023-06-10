@@ -1,11 +1,12 @@
 # vim:set ft=dockerfile:
 FROM ibm-semeru-runtimes:open-8-jre-jammy
 
-ENV TZ=Asia/Shanghai \
-    DEBIAN_FRONTEND=noninteractive
+ENV TZ=Asia/Shanghai 
 
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
 RUN groupadd -r mysql && useradd -r -g mysql mysql
+
+
 
 # add gosu for easy step-down from root
 # https://github.com/tianon/gosu/releases
@@ -28,6 +29,8 @@ ARG GPG_KEYS=177F4010FE56CA3336300305F1656F24C74CD1D8
 RUN set -eux; \
 	apt-get update; \
 	DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+		netcat \
+		perl \
 		ca-certificates \
 		gpg \
 		gpgv \
@@ -42,7 +45,11 @@ RUN set -eux; \
 		gpg-agent \
 		wget; \
 	rm -rf /var/lib/apt/lists/*; \
+	mkdir -p /home/mysql/canal-server; \
 	dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')"; \
+	wget -q -O /home/mysql/canal-server.tar.gz "https://github.com/alibaba/canal/releases/download/canal-$CANAL_VERSION/canal.deployer-$CANAL_VERSION.tar.gz"; \ 
+	tar zxvf /home/mysql/canal-server.tar.gz -C /home/mysql/canal-server/; \
+	rm -rf /home/mysql/canal-server.tar.gz; \
 	wget -q -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch"; \
 	wget -q -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc"; \
 	GNUPGHOME="$(mktemp -d)"; \
@@ -66,18 +73,6 @@ RUN set -eux; \
 	gosu nobody true
 
 RUN mkdir /docker-entrypoint-initdb.d
-
-
-#canal
-RUN mkdir -p /home/mysql/canal-server && \
-	apt-get update && \
-	apt-get -y install netcat \
-	perl
-
-COPY ./canal.deployer-1.1.6/ /home/mysql/canal-server/
-
-COPY ./image/app.sh /home/mysql/
-
 
 
 
