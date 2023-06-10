@@ -118,7 +118,8 @@ function start_canal() {
             fi 
         fi
 
-        bash /home/mysql/canal-server/bin/restart.sh 1>>/tmp/start.log 2>&1
+        bash /home/mysql/canal-server/bin/stop.sh 1>>/tmp/start.log 2>&1
+        bash /home/mysql/canal-server/bin/startup.sh 1>>/tmp/start.log 2>&1
 
         sleep 5
         #check start
