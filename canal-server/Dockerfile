@@ -31,6 +31,7 @@ RUN set -eux; \
 	DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
 		netcat \
 		perl \
+		file \
 		ca-certificates \
 		gpg \
 		gpgv \
