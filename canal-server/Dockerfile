@@ -151,12 +151,15 @@ COPY healthcheck.sh /usr/local/bin/healthcheck.sh
 COPY mariadb-entrypoint.sh /home/mysql/
 COPY app.sh /home/mysql/
 
+COPY instance.properties /home/mysql/canal-server/conf/example/
+
 RUN chown mysql: /home/mysql/mariadb-entrypoint.sh && \
 	chown mysql: /home/mysql/app.sh && \
 	chmod a+x /home/mysql/app.sh && \
 	chmod a+x /home/mysql/mariadb-entrypoint.sh && \
 	# chown mysql: /usr/local/bin/healthcheck.sh && \
-	chown -R mysql: /home/mysql/canal-server
+	chown -R mysql: /home/mysql/canal-server 
+
 
 
 USER mysql
