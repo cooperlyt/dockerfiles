@@ -83,6 +83,7 @@ function start_canal() {
             adminPort=11110
         fi
 
+        bash 
         su mysql -c 'cd /home/mysql/canal-server/bin/ && sh restart.sh local 1>>/tmp/start.log 2>&1'
         sleep 5
         #check start
@@ -114,6 +115,34 @@ function start_canal() {
         #check start
         checkStart "canal" "nc -v -z -w 1 127.0.0.1 11112 &> /dev/null && echo 'Port is Open' || echo ''" 30
     fi  
+}
+
+function splitDestinations() {
+    holdExample="false"
+    prefix=''
+    array=()
+
+    if [[  "$1" == '1' ]] ; then
+        echo "split destinations expr "$2
+        prefix=$(echo $2 | sed 's/{.*//')
+        num=$(echo $2 | sed 's/.*{//;s/}//;s/-/ /')
+        array=($(seq $num))
+    else
+        echo "split destinations "$2
+        array=(${2//,/ })
+    fi
+
+    for var in ${array[@]}
+    do
+        cp -r /home/mysql/canal-server/conf/example /home/mysql/canal-server/conf/$prefix$var
+        chown mysql:mysql -R /home/mysql/canal-server/conf/$prefix$var
+        if [[ "$prefix$var" = 'example' ]] ; then
+            holdExample="true"
+        fi
+    done
+    if [[ "$holdExample" != 'true' ]] ; then
+        rm -rf /home/mysql/canal-server/conf/example
+    fi
 }
 
 function stop_canal() {
