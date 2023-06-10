@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+
+  database:
+    image: coopersoft/canal-server:mariadb_10.9.7_1.1.6
+    ports:
+      - "11111:11111"
+      - "11112:11112"
+      - "3306:3306"
+    environment:
+      - MARIADB_ROOT_PASSWORD=5257mq
+      - TZ=Asia/Shanghai
+      - canal.auto.scan=false
+      - canal.instance.mysql.slaveId=11
+      - canal.instance.master.address=127.0.0.1:3306
+      - canal.instance.dbUsername=root
+      - canal.instance.dbPassword=5257mq
+      - canal.instance.filter.black.regex=(.*\\..*_snapshot.*)|(.*\\..*BASE TABLE.*)
+      - canal.destinations=house_record
+      - canal.instance.connectionCharset=UTF-8
+      - canal.instance.tsdb.enable=true
+    command: [
+      '--character-set-server=utf8mb4',
+      '--collation-server=utf8mb4_general_ci',
+      '--log-bin=mysql-bin',
+      '--binlog-format=ROW',
+      '--server_id=1',
+      '--binlog-ignore-db=information_schema',
+      '--binlog-ignore-db=mysql',
+      '--binlog-ignore-db=performance_schema',
+      '--binlog-ignore-db=sys'
+    ]
