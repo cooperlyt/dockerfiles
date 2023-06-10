@@ -2,11 +2,9 @@
 set -e
 
 source /etc/profile
-export JAVA_HOME=/usr/java/latest
-export PATH=$JAVA_HOME/bin:$PATH
 touch /tmp/start.log
-chown admin: /tmp/start.log
-chown -R admin: /home/admin/canal-server
+chown mysql: /tmp/start.log
+chown -R mysql: /home/mysql/canal-server
 host=`hostname -i`
 
 # waitterm
@@ -85,7 +83,7 @@ function start_canal() {
             adminPort=11110
         fi
 
-        su admin -c 'cd /home/admin/canal-server/bin/ && sh restart.sh local 1>>/tmp/start.log 2>&1'
+        su mysql -c 'cd /home/mysql/canal-server/bin/ && sh restart.sh local 1>>/tmp/start.log 2>&1'
         sleep 5
         #check start
         checkStart "canal" "nc 127.0.0.1 $adminPort -w 1 -z | wc -l" 30
@@ -101,15 +99,15 @@ function start_canal() {
             exit 1;
         else
             if [ "$destination" != "" ] && [ "$destination" != "example" ] ; then
-                if [ -d /home/admin/canal-server/conf/example ]; then
-                    mv /home/admin/canal-server/conf/example /home/admin/canal-server/conf/$destination
+                if [ -d /home/mysql/canal-server/conf/example ]; then
+                    mv /home/mysql/canal-server/conf/example /home/mysql/canal-server/conf/$destination
                 fi
             fi 
         fi
 
 
 
-        su admin -c 'cd /home/admin/canal-server/bin/ && sh restart.sh 1>>/tmp/start.log 2>&1'
+        su mysql -c 'cd /home/mysql/canal-server/bin/ && sh restart.sh 1>>/tmp/start.log 2>&1'
 
     
         sleep 5
@@ -120,21 +118,29 @@ function start_canal() {
 
 function stop_canal() {
     echo "stop canal"
-    su admin -c 'cd /home/admin/canal-server/bin/ && sh stop.sh 1>>/tmp/start.log 2>&1'
+    su mysql -c 'cd /home/mysql/canal-server/bin/ && sh stop.sh 1>>/tmp/start.log 2>&1'
     echo "stop canal successful ..."
 }
 
 function start_exporter() {
-    su admin -c 'cd /home/admin/node_exporter && ./node_exporter 1>>/tmp/start.log 2>&1 &'
+    su mysql -c 'cd /home/mysql/node_exporter && ./node_exporter 1>>/tmp/start.log 2>&1 &'
 }
 
 function stop_exporter() {
-    su admin -c 'killall node_exporter'
+    su mysql -c 'killall node_exporter'
+}
+
+function start_mariadb(){
+    echo "start mariadb"
+    su mysql -c "sh /usr/local/bin/docker-entrypoint.sh $@ 1>>/tmp/start.log 2>&1"
+    echo "start mariadb successful ..."
+
 }
 
 echo "==> START ..."
 
-start_exporter
+start_mariadb
+# start_exporter
 start_canal
 
 echo "==> START SUCCESSFUL ..."
@@ -146,6 +152,6 @@ waitterm
 echo "==> STOP"
 
 stop_canal
-stop_exporter
+# stop_exporter
 
 echo "==> STOP SUCCESSFUL ..."
