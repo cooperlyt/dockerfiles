@@ -1,5 +1,5 @@
 # vim:set ft=dockerfile:
-FROM ibm-semeru-runtimes:open-8-jre-jammy
+FROM ibm-semeru-runtimes:open-11-jre-jammy
 
 ENV TZ=Asia/Shanghai 
 
