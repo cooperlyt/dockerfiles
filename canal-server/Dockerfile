@@ -163,7 +163,8 @@ RUN chown mysql: /home/mysql/mariadb-entrypoint.sh && \
 	chown mysql: /home/mysql/app.sh && \
 	chmod a+x /home/mysql/app.sh && \
 	chmod a+x /home/mysql/mariadb-entrypoint.sh && \
-	chown -R mysql: /home/mysql/canal-server 
+	chown -R mysql: /home/mysql/canal-server && \
+	chown -R mysql: /home/mysql/canal-adapter 
 
 
 
