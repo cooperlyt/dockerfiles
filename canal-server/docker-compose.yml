@@ -3,7 +3,7 @@ version: '3'
 services:
 
   database:
-    image: coopersoft/canal-server:mariadb_10.9.7_1.1.6
+    image: coopersoft/canal-server:stanlone_10.9.7_1.1.7
     # ports:
     #   - "11111:11111"
     #   - "11112:11112"

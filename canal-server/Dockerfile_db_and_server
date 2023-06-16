@@ -13,9 +13,7 @@ RUN groupadd -r mysql && useradd -r -g mysql mysql
 # gosu key is B42F6819007F00F88E364FD4036A9C25BF357DD4
 ENV GOSU_VERSION 1.14
 
-ENV CANAL_VERSION 1.1.7-SNAPSHOT
-
-ENV CANAL_TAG 1.1.7-alpha-2
+ENV CANAL_VERSION 1.1.6
 
 ARG GPG_KEYS=177F4010FE56CA3336300305F1656F24C74CD1D8
 # pub   rsa4096 2016-03-30 [SC]
@@ -34,7 +32,6 @@ RUN set -eux; \
 		netcat \
 		perl \
 		file \
-		procps \
 		ca-certificates \
 		gpg \
 		gpgv \
@@ -50,14 +47,10 @@ RUN set -eux; \
 		wget; \
 	rm -rf /var/lib/apt/lists/*; \
 	mkdir -p /home/mysql/canal-server; \
-	mkdir -p /home/mysql/canal-adapter; \
 	dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')"; \
-	wget -q -O /home/mysql/canal-server.tar.gz "https://github.com/alibaba/canal/releases/download/canal-$CANAL_TAG/canal.deployer-$CANAL_VERSION.tar.gz"; \ 
+	wget -q -O /home/mysql/canal-server.tar.gz "https://github.com/alibaba/canal/releases/download/canal-$CANAL_VERSION/canal.deployer-$CANAL_VERSION.tar.gz"; \ 
 	tar zxvf /home/mysql/canal-server.tar.gz -C /home/mysql/canal-server/; \
 	rm -rf /home/mysql/canal-server.tar.gz; \
-	wget -q -O /home/mysql/canal-adapter.tar.gz "https://github.com/alibaba/canal/releases/download/canal-$CANAL_TAG/canal.adapter-$CANAL_VERSION.tar.gz"; \
-	tar zxvf /home/mysql/canal-adapter.tar.gz -C /home/mysql/canal-adapter/; \
-	rm -rf /home/mysql/canal-adapter.tar.gz; \
 	wget -q -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch"; \
 	wget -q -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc"; \
 	GNUPGHOME="$(mktemp -d)"; \

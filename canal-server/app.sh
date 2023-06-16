@@ -75,7 +75,7 @@ function checkStart() {
 
 
 function start_canal() {
-    echo "start canal ..."
+    echo "start canal server..."
     managerAddress=`perl -le 'print $ENV{"canal.admin.manager"}'`
     if [ ! -z "$managerAddress" ] ; then
         # canal_local.properties mode
@@ -122,7 +122,7 @@ function start_canal() {
 
         sleep 5
         #check start
-        checkStart "canal" "nc -v -z -w 1 127.0.0.1 11112 &> /dev/null && echo 'Port is Open' || echo ''" 30
+        checkStart "canal-server" "nc -v -z -w 1 127.0.0.1 11112 &> /dev/null && echo 'Port is Open' || echo ''" 30
     fi  
 }
 
@@ -155,9 +155,29 @@ function splitDestinations() {
 }
 
 function stop_canal() {
-    echo "stop canal"
+    echo "stop canal server"
     bash /home/mysql/canal-server/bin/stop.sh 1>>/tmp/start.log 2>&1
-    echo "stop canal successful ..."
+    echo "stop canal server successful ..."
+}
+
+function start_canal_adapter(){
+    echo "start canal adapter..."
+    
+    bash /home/mysql/canal-adapter/bin/stop.sh 1>>/tmp/start.log 2>&1
+    bash /home/mysql/canal-adapter/bin/startup.sh 1>>/tmp/start.log 2>&1
+
+    sleep 5
+        #check start
+    checkStart "canal-adapter" "nc -v -z -w 1 127.0.0.1 8081 &> /dev/null && echo 'Port is Open' || echo ''" 30 
+
+    echo "start canal adapter successful ..."
+}
+
+
+function stop_canal_adapter(){
+    echo "stop canal adapter"
+    bash /home/mysql/canal-adapter/bin/stop.sh 1>>/tmp/start.log 2>&1
+    echo "stop canal adapter successful ..."
 }
 
 function start_exporter() {
@@ -185,6 +205,8 @@ start_mariadb "$@"
 # start_exporter
 start_canal
 
+start_canal_adapter
+
 echo "==> START SUCCESSFUL ..."
 
 tail -f /dev/null &
@@ -192,6 +214,8 @@ tail -f /dev/null &
 waitterm
 
 echo "==> STOP"
+
+stop_canal_adapter
 
 stop_canal
 # stop_exporter
