@@ -17,6 +17,7 @@ local DEFAULT_HASH = "NONE"
 local DEFAULT_SCHEMA = "http"
 
 local sha256 = function(body)
+  local resty_sha256 = require "resty.sha256"
   local sha256 = resty_sha256:new()
   sha256:update(body_data)
   local digest = sha256:final()
