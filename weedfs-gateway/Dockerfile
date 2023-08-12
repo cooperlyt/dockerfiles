@@ -8,9 +8,10 @@ RUN apt-get update && apt-get install -y \
 
 RUN useradd -d /home/www -s /sbin/nologin www \
     && mkdir -p /home/www/data/images \
-    && chown -R www:www /home/www
+    && chown -R www:www /home/www \
+    && mkdir -p /usr/local/openresty/nginx/lua
 
 
 COPY conf/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 COPY lua/weedfs.lua /usr/local/openresty/lualib/weedfs.lua
-COPY lua/media.lua /usr/local/openresty/lualib/media.lua
+COPY lua/media.lua /usr/local/openresty/nginx/lua/media.lua
