@@ -271,7 +271,6 @@ if res.status == 200 then
     return ngx.exit(500)
   else
     local blob = magic:get_blob()
-    ngx.header[key] = res.headers["content-type"]
     ngx.say(blob)
     return ngx.exit(200)
   end
