@@ -1,5 +1,7 @@
 FROM openresty/openresty:1.21.4.2-0-jammy
 
+RUN opm get ledgetech/lua-resty-http
+
 RUN apt-get update && apt-get install -y \
     graphicsmagick \
     && rm -rf /var/lib/apt/lists/*
