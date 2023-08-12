@@ -211,16 +211,16 @@ _M.upload = function(self)
   else
     local assing_info = cjson.decode(body)
     ngx.req.read_body()
-    code, body = self:put(assing_info.publicUrl,assing_info.fid);
+    code, body = self:put(assing_info.publicUrl,assing_info.fid)
     if code ~= 201 then
       return code, body
     else
       local result_info = cjson.decode(body)
       result_info.fid = assing_info.fid
       if self.hash == 'SHA256' then
-        result_info.sha256 = self:sha256(ngx.req.get_body_data())
+        result_info.sha256 = sha256(ngx.req.get_body_data())
       elseif self.hash == 'MD5' then
-        result_info.md5 = self:md5(ngx.req.get_body_data())
+        result_info.md5 = md5(ngx.req.get_body_data())
       end
       return code, result_info
     end
