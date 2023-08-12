@@ -40,6 +40,17 @@ function weedfs:lookup(volume_id)
     return res.status , res.body
 end
 
+function weedfs:sha256()
+  local body_data = ngx.req.get_body_data()
+  if body_data then    
+    local sha256 = resty_sha256:new()
+    sha256:update(body_data)
+    local digest = sha256:final()
+    local sha256_hash = ngx.encode_base64(digest)
+    return sha256_hash
+  end
+end
+
 function weedfs:upload()
   local code , body = self:assing()
   if code ~= 200 then
@@ -47,20 +58,13 @@ function weedfs:upload()
   else
     local assing_info = cjson.decode(body)
     ngx.req.read_body()
-    local body_data = ngx.req.get_body_data()
-    if body_data then    
-      local sha256 = resty_sha256:new()
-      sha256:update(body_data)
-      local digest = sha256:final()
-      local sha256_hash = ngx.encode_base64(digest)
-      assing_info.sha256 = sha256_hash
-    end   
     local put_code, put_body = weedfs:put(assing_info.publicUrl,assing_info.fid);
     if put_code ~= 201 then
       return put_code, put_body
     else
       local result_info = cjson.decode(put_body)
       result_info.fid = assing_info.fid
+      result_info.sha256 = weedfs:sha256()
       return put_code, result_info
     end
   end
