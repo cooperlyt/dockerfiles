@@ -25,17 +25,17 @@ function req_orig_file(file_url)
   local hc = http.new()
   local res, err = hc:request_uri(file_url)
 
-  ngx.log(ngx.INFO,"req_orig_file1:",res)
+  ngx.log(ngx.INFO,"req_orig_file1:",res.status)
 
   if res.status == 301 or res.status == 302 then
     file_url = string.match(res.body,'"(.+)"')
     ngx.log(ngx.INFO,"refer",file_url)
     res, err = hc:request_uri(file_url)
-    ngx.log(ngx.INFO,"req_orig_file2:",res)
+    ngx.log(ngx.INFO,"req_orig_file2:",res.status)
   end
 
   if res.status ~= 200 then
-    ngx.log(ngx.ERR,"req_orig_file error:")
+    ngx.log(ngx.ERR,"req_orig_file error:",err)
     return exit_with_code(404)
   else
     if res.body == nil then
