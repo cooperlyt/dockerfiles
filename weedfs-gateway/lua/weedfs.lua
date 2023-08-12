@@ -212,7 +212,7 @@ _M.upload = function(self)
     local assing_info = cjson.decode(body)
     ngx.req.read_body()
     code, body = self:put(assing_info.publicUrl,assing_info.fid);
-    if put_code ~= 201 then
+    if code ~= 201 then
       return code, body
     else
       local result_info = cjson.decode(body)
