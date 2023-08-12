@@ -27,7 +27,8 @@ function req_orig_file(file_url)
 
   ngx.log(ngx.INFO,"req_orig_file1:",res.status)
 
-  if res.status == 301 or res.status == 302 or res.status == 308 then
+  if res.status >= 300 and res.status < 400 then
+    -- res.headers["Location"]
     file_url = string.match(res.body,'"(.+)"')
     ngx.log(ngx.INFO,"refer",file_url)
     res, err = hc:request_uri(file_url)
@@ -230,3 +231,27 @@ elseif(process_type == "audio")then
   ngx.log(ngx.INFO, "process audio - " , "volumn:" , file_volumn , " id:" , file_id , " size:" , file_size , " url:" , file_url)
   process_audio(file_volumn,file_id,file_size,file_url)
 end
+
+
+local magick = require('resty.magick.init')
+
+local options = {
+  width = ngx.var.image_width,
+  height = ngx.var.image_height,
+  quality = ngx.var.image_quality,
+  format = ngx.var.image_extension,
+}
+local magic = magick:new(options)
+local ok, err = magic:load_file(local_file_in_path)
+if not ok then
+  ngx.log(ngx.ERR, err)
+  return
+end
+local webp_options = { quality = 75, lossless = "0" }
+ok, err = magic:set_format('webp', webp_options)
+if not ok then
+    ngx.log(ngx.ERR, err)
+    return
+end
+local blob = magic:get_blob()
+ngx.print(blob)

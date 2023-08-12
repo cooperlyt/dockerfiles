@@ -1,10 +1,22 @@
 FROM openresty/openresty:1.21.4.2-0-jammy
 
-RUN opm get ledgetech/lua-resty-http
+
 
 RUN apt-get update && apt-get install -y \
-    graphicsmagick \
+    libmagickwand-dev \
+    libgraphicsmagick1-dev \
+    libwebp-dev \
+    libjpeg62-dev \
+    libpng12-dev \
+    libtiff-devel \
+    freetype-devel \
+    libpng-devel \
+    libjpeg-devel \
     && rm -rf /var/lib/apt/lists/*
+
+RUN opm get ledgetech/lua-resty-http \
+    && luarocks install magick \
+    && opm get kwanhur/lua-resty-magick
 
 RUN useradd -d /home/www -s /sbin/nologin www \
     && mkdir -p /home/www/data/images \

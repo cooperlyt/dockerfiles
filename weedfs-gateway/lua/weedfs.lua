@@ -1,3 +1,6 @@
+
+
+
 local http = require "resty.http"
 local cjson = require "cjson"
 local resty_sha256 = require "resty.sha256"
@@ -6,10 +9,20 @@ local weedfs = {}
 
 function weedfs:put(put_url,put_fid)
     
-    local res = ngx.location.capture(
-        "/weedfs/_put", {method = ngx.HTTP_PUT,args={fid=put_fid, url=put_url},share_all_vars = true}
-        )
-
+    -- local res = ngx.location.capture(
+    --     "/weedfs/_put", {method = ngx.HTTP_PUT,args={fid=put_fid, url=put_url},share_all_vars = true}
+    --     )
+    
+    local hc = http.new()
+    local res, err = hc:request_uri('http://' .. put_url .. '/' .. put_fid,{
+      method = "PUT",
+      body = ngx.req.get_body_data(),
+      -- headers = {
+      -- }
+    })
+    if not res then
+      ngx.log(ngx.ERR,"weedfs put error:",err)
+    end
     return res.status , res.body
 end
 
@@ -17,6 +30,8 @@ function weedfs:delete(del_fid)
     local res = ngx.location.capture(
         "/weedfs/_delete", {method = ngx.HTTP_DELETE,args={fid=del_fid},share_all_vars = true}
         )
+    
+        
     return res.status , res.body
 end
 
@@ -50,6 +65,41 @@ function weedfs:sha256()
     return sha256_hash
   end
 end
+
+
+function get(file_url)
+  ngx.log(ngx.INFO,"req_orig_file:",file_url)
+  
+  local hc = http.new()
+  local res, err = hc:request_uri(file_url)
+
+  if res.status >= 300 and res.status < 400 then
+    -- res.headers["Location"]
+    file_url = string.match(res.body,'"(.+)"')
+    res, err = hc:request_uri(file_url)
+  end
+
+  if res.status ~= 200 then
+    ngx.log(ngx.ERR,"req_orig_file error:",err)
+    return exit_with_code(404)
+  else
+    if res.body == nil then
+      ngx.log(ngx.ERR,"req_orig_file error:body is nil")
+      return exit_with_code(404)
+    else
+      if (res.body..'a') == 'a' then
+          ngx.log(ngx.ERR,"req_orig_file error:body is empty")
+          return exit_with_code(404)
+        else
+          ngx.say(res.body)
+          ngx.flush(true)
+          exit_with_code(200)
+          return
+      end
+    end
+  end
+end
+
 
 function weedfs:upload()
   local code , body = self:assing()
