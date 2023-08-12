@@ -21,12 +21,14 @@ end
 
 function weedfs:assing()
     local hc = http.new()
+    ngx.log(ngx.INFO,"weedfs assign",ngx.var.weed_img_root_url .. "dir/assign")
     local res,err = hc:request_uri(ngx.var.weed_img_root_url .. "dir/assign")
     return res.status , res.body
 end
 
 function weedfs:lookup(volume_id)
     local hc = http.new()
+    ngx.log(ngx.INFO,"weedfs lookup",ngx.var.weed_img_root_url .. "dir/assign")
     local res,err = hc:request_uri(ngx.var.weed_img_root_url .. "dir/lookup?volumeId="..volume_id)
     return res.status , res.body
 end
