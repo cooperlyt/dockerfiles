@@ -1,4 +1,4 @@
-function table.contains(table, element)
+local function table.contains(table, element)
   for _, value in pairs(table) do
       if value == element then
           return true
@@ -7,47 +7,50 @@ function table.contains(table, element)
   return false
 end
 
-function file_exists(name)
+local function file_exists(name)
   local f=io.open(name,"r")
   if f~=nil then io.close(f) return true else return false end
 end
 
-function exit_with_code(code)
+local function exit_with_code(code)
 --    ngx.say(code) 
   ngx.exit(code)
   return
 end
 
-function req_orig_file(file_url)
+local function req_orig_file(file_url)
   local http = require"resty.http"
   local hc = http.new()
   local res, err = hc:request_uri(file_url)
 
   if res.status == 301 or res.status == 302 then
-     file_url = string.match(res.body,'"(.+)"')
-     res, err = hc:request_uri(file_url)
+    file_url = string.match(res.body,'"(.+)"')
+    res, err = hc:request_uri(file_url)
   end
 
   if res.status ~= 200 then
-     return exit_with_code(404)
+    ngx.log(ngx.ERR,"req_orig_file error:",err)
+    return exit_with_code(404)
   else
-      if res.body == nil then
+    if res.body == nil then
+      ngx.log(ngx.ERR,"req_orig_file error:body is nil")
+      return exit_with_code(404)
+    else
+      if (res.body..'a') == 'a' then
+          ngx.log(ngx.ERR,"req_orig_file error:body is empty")
           return exit_with_code(404)
-      else
-          if (res.body..'a') == 'a' then
-              return exit_with_code(404)
-          else
-              ngx.say(res.body)
-              ngx.flush(true)
-              exit_with_code(200)
-              return
-          end
+        else
+          ngx.say(res.body)
+          ngx.flush(true)
+          exit_with_code(200)
+          return
       end
+    end
   end
 end
 
 
-function save_orig_file(file_url,local_file_folder,local_file_path)
+local function save_orig_file(file_url,local_file_folder,local_file_path)
   local http = require "resty.http"
   local hc = http.new()
   local res, err = hc:request_uri(file_url)
@@ -80,12 +83,12 @@ function save_orig_file(file_url,local_file_folder,local_file_path)
   end
 end
 
-function req_volume_server()
+local function req_volume_server()
 -- TODO,get from weedfs,curl http://localhost:9333/dir/lookup?volumeId=3
 end
 
 
-function process_img(file_volumn,file_id,file_size,file_url)
+local function process_img(file_volumn,file_id,file_size,file_url)
   local image_sizes = { "100x100", "80x80", "800x600", "40x40" ,"480x320","360x200","320x210","640x420","160x160","800x400","200x200"};
   local scale_image_sizes = { "100x100s", "80x80s", "800x600s", "40x40s" ,"480x320s","360x200s","320x210s","640x420s","160x160s","800x400s","200x200s"};
   local local_file_root =  ngx.var.local_img_fs_root .."images/";
@@ -146,7 +149,7 @@ function process_img(file_volumn,file_id,file_size,file_url)
 
 end
 
-function process_audio(file_volumn,file_id,file_size,file_url)
+local function process_audio(file_volumn,file_id,file_size,file_url)
 
   local audio_sizes = { "mp3" };
   local local_file_root = ngx.var.local_audio_fs_root .."audios/";
@@ -208,11 +211,14 @@ local process_type = ngx.var.arg_type or "na";
 local file_size = ngx.var.arg_size or "na";
 
 if ngx.var.arg_size == nil or ngx.var.arg_volumn == nil or ngx.var.arg_id == nil then
-    return exit_with_code(400)
+  ngx.log(ngx.ERR, "missing params - size:" , ngx.var.arg_size , " volumn:" , ngx.var.arg_volumn , " id:" , ngx.var.arg_id)
+  return exit_with_code(400)
 end
 
 if(process_type == "img") then
-    process_img(file_volumn,file_id,file_size,file_url)
+  ngx.log(ngx.INFO, "process image - ", "volumn:" , file_volumn , " id:" , file_id , " size:" , file_size , " url:" , file_url)
+  process_img(file_volumn,file_id,file_size,file_url)
 elseif(process_type == "audio")then
-    process_audio(file_volumn,file_id,file_size,file_url)
+  ngx.log(ngx.INFO, "process audio - " , "volumn:" , file_volumn , " id:" , file_id , " size:" , file_size , " url:" , file_url)
+  process_audio(file_volumn,file_id,file_size,file_url)
 end
