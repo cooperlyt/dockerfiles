@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 RUN useradd -d /home/www -s /sbin/nologin www \
-    && mkdir -p /home/www/data/images/ \
+    && mkdir -p /home/www/data/images \
     && chown -R www:www /home/www
 
 

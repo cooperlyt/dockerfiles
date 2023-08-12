@@ -13,7 +13,7 @@ function file_exists(name)
 end
 
 function exit_with_code(code)
---    ngx.say(code)
+--    ngx.say(code) 
   ngx.exit(code)
   return
 end
