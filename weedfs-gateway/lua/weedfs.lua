@@ -11,6 +11,8 @@ _M._NAME = modulename
 local http = require "resty.http"
 local cjson = require "cjson"
 
+local setmetatable = setmetatable
+
 local DEFAULT_HASH = "NONE"
 local DEFAULT_SCHEMA = "http"
 
@@ -34,6 +36,7 @@ _M.new = function(self, options)
   self.master_url = options.master_url
   self.hash = options.hash or DEFAULT_HASH
   self.schema = options.schema or DEFAULT_SCHEMA
+  return setmetatable(self, mt)
 end
 
 _M.put = function(self,url,fid)
