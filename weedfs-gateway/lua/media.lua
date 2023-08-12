@@ -1,4 +1,4 @@
-local function table.contains(table, element)
+function table.contains(table, element)
   for _, value in pairs(table) do
       if value == element then
           return true
@@ -7,18 +7,18 @@ local function table.contains(table, element)
   return false
 end
 
-local function file_exists(name)
+function file_exists(name)
   local f=io.open(name,"r")
   if f~=nil then io.close(f) return true else return false end
 end
 
-local function exit_with_code(code)
+function exit_with_code(code)
 --    ngx.say(code) 
   ngx.exit(code)
   return
 end
 
-local function req_orig_file(file_url)
+function req_orig_file(file_url)
   ngx.log(ngx.INFO,"req_orig_file:",file_url)
   local http = require"resty.http"
   local hc = http.new()
@@ -51,7 +51,7 @@ local function req_orig_file(file_url)
 end
 
 
-local function save_orig_file(file_url,local_file_folder,local_file_path)
+function save_orig_file(file_url,local_file_folder,local_file_path)
   local http = require "resty.http"
   local hc = http.new()
   local res, err = hc:request_uri(file_url)
@@ -84,12 +84,12 @@ local function save_orig_file(file_url,local_file_folder,local_file_path)
   end
 end
 
-local function req_volume_server()
+function req_volume_server()
 -- TODO,get from weedfs,curl http://localhost:9333/dir/lookup?volumeId=3
 end
 
 
-local function process_img(file_volumn,file_id,file_size,file_url)
+function process_img(file_volumn,file_id,file_size,file_url)
   local image_sizes = { "100x100", "80x80", "800x600", "40x40" ,"480x320","360x200","320x210","640x420","160x160","800x400","200x200"}
   local scale_image_sizes = { "100x100s", "80x80s", "800x600s", "40x40s" ,"480x320s","360x200s","320x210s","640x420s","160x160s","800x400s","200x200s"}
   local local_file_root =  ngx.var.local_img_fs_root .."images/"
@@ -150,7 +150,7 @@ local function process_img(file_volumn,file_id,file_size,file_url)
 
 end
 
-local function process_audio(file_volumn,file_id,file_size,file_url)
+function process_audio(file_volumn,file_id,file_size,file_url)
 
   local audio_sizes = { "mp3" }
   local local_file_root = ngx.var.local_audio_fs_root .."audios/"
