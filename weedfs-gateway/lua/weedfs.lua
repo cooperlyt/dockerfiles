@@ -222,7 +222,7 @@ _M.upload = function(self)
       elseif self.hash == 'MD5' then
         result_info.md5 = self:md5(ngx.req.get_body_data())
       end
-      return code, body
+      return code, result_info
     end
   end
 end
