@@ -28,6 +28,6 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2          
       - shell: bash
-        run: cd canal-server && ./docker_build.sh
+        run: cd weedfs-gateway && ./docker_build.sh
 
 
