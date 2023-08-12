@@ -56,7 +56,7 @@ end
 
 _M.delete = function(self,fid)
   local hc = http.new()
-  local res, err = hc:request_uri(self.schema .. '://' .. url .. '/' .. fid,{
+  local res, err = hc:request_uri(self.schema .. '://' .. self.master_url .. '/' .. fid,{
     method = "DELETE",
   })
   if not res then
@@ -68,7 +68,9 @@ end
 
 _M.assign = function(self)
   local hc = http.new()
-  local res, err = hc:request_uri(self.schema .. '://' .. self.master_url .. "/dir/assign")
+  local request_url = self.schema .. '://' .. self.master_url .. "/dir/assign"
+  ngx.log(ngx.INFO,"weedfs assign:",request_url)
+  local res, err = hc:request_uri(request_url)
   if not res then
     ngx.log(ngx.ERR,"weedfs assign error:",err)
     return 500 , err
