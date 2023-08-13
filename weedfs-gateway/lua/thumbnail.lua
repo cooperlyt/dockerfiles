@@ -259,6 +259,7 @@ if res.status == 200 then
     ngx.say(err)
     return ngx.exit(500)
   end
+  ngx.log(ngx.INFO, "process image - " , "volumn:" , file_volumn , " id:" , file_id , " size:" , file_size , " url:" , file_url)
   magick:resize()
   local webp_options = { quality = 75, lossless = "0" }
   ok, err = magick:set_format('webp', webp_options)
