@@ -22,4 +22,4 @@ RUN useradd -d /home/www -s /sbin/nologin www \
 
 
 COPY conf/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
-COPY lua/media.lua /usr/local/openresty/nginx/lua/media.lua
+COPY lua/thumbnail.lua /usr/local/openresty/nginx/lua/thumbnail.lua
