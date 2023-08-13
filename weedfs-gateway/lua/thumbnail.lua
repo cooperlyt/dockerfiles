@@ -243,7 +243,7 @@ local fs = seaweedfs:new(options)
 local res, err = fs:get(fid)
 
 if res.status == 200 then
-  local magick = require('resty.magick.init')
+  local resty_magick = require('resty.magick.init')
 
   local options = {
     width = 800,
@@ -251,8 +251,8 @@ if res.status == 200 then
     quality = 75,
     format = 'webp',
   }
-  local magic = magick:new(options)
-  local ok, err = magic:load_image(res.body)
+  local magick = resty_magick:new(options)
+  local ok, err = magick:load_image(res.body)
   if not ok then
     ngx.status = 500
     ngx.log(ngx.ERR, err)
@@ -261,14 +261,14 @@ if res.status == 200 then
   end
   magick:resize()
   local webp_options = { quality = 75, lossless = "0" }
-  ok, err = magic:set_format('webp', webp_options)
+  ok, err = magick:set_format('webp', webp_options)
   if not ok then
     ngx.status = 500
     ngx.log(ngx.ERR, err)
     ngx.say(err)
     return ngx.exit(500)
   else
-    local blob = magic:get_blob()
+    local blob = magick:get_blob()
     ngx.say(blob)
     return ngx.exit(200)
   end
