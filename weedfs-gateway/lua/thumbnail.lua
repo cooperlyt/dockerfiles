@@ -243,36 +243,18 @@ local fs = seaweedfs:new(options)
 local res, err = fs:get(fid)
 
 if res.status == 200 then
-  local resty_magick = require('resty.magick.init')
 
-  local options = {
-    width = 800,
-    height = 600,
-    quality = 75,
-    format = 'webp',
-  }
-  local magick = resty_magick:new(options)
-  local ok, err = magick:load_image(res.body)
-  if not ok then
-    ngx.status = 500
-    ngx.log(ngx.ERR, err)
-    ngx.say(err)
-    return ngx.exit(500)
-  end
-  ngx.log(ngx.INFO, "process image - " , "volumn:" , file_volumn , " id:" , file_id , " size:" , file_size , " url:" , file_url)
-  magick:resize()
-  local webp_options = { quality = 75, lossless = "0" }
-  ok, err = magick:set_format('webp', webp_options)
-  if not ok then
-    ngx.status = 500
-    ngx.log(ngx.ERR, err)
-    ngx.say(err)
-    return ngx.exit(500)
-  else
-    local blob = magick:get_blob()
-    ngx.say(blob)
-    return ngx.exit(200)
-  end
+  local magick = require "magick"
+  local image = magick.load_image_from_blob(res.body)
+  image:strip()
+  image:set_format("webp")
+  image:set_option("webp", "lossless", "0")
+  image:set_quality(75)
+  -- image:resize(800, 600)
+  image:thumb("500x300!")
+  ngx.say(blob)
+  image:destroy()
+  return ngx.exit(200)
 else
   ngx.status = res.status
   ngx.say(err)
