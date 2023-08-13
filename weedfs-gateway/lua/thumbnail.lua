@@ -241,6 +241,11 @@ local options = {
 }
 local fs = seaweedfs:new(options)
 local res, err = fs:get(fid)
+if not res then
+  ngx.status = 500
+  ngx.say(err)
+  return ngx.exit(500)
+end
 
 if res.status == 200 then
 
@@ -252,7 +257,7 @@ if res.status == 200 then
   image:set_quality(75)
   -- image:resize(800, 600)
   image:thumb("500x300!")
-  ngx.say(blob)
+  ngx.say(image:get_blob())
   image:destroy()
   return ngx.exit(200)
 else
