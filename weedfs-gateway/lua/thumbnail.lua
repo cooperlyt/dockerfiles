@@ -233,16 +233,14 @@
 -- end
 
 -------------------------------
-local file_volumn = ngx.var.arg_volumn
-local file_id = ngx.var.arg_id
-local f_id = file_volumn .. "," .. file_id
+local fid = ngx.var.arg_fid
 
 local seaweedfs = require "resty.seaweedfs"
 local options = {
   master_url = ngx.var.weed_img_root_url
 }
 local fs = seaweedfs:new(options)
-local res, err = fs:get(f_id)
+local res, err = fs:get(fid)
 
 if res.status == 200 then
   local magick = require('resty.magick.init')
