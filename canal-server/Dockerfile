@@ -13,9 +13,11 @@ RUN groupadd -r mysql && useradd -r -g mysql mysql
 ENV GOSU_VERSION 1.14
 
 # 1.1.7 has bug https://github.com/alibaba/canal/issues/4796
-ENV CANAL_VERSION 1.1.6
+ENV CANAL_VERSION 1.1.7-SNAPSHOT
 
-ENV CANAL_TAG 1.1.6-hotfix-1
+ENV CANAL_ADAPTER_TAG 1.1.7-alpha-1
+
+ENV CANAL_DEPLOYER_TAG 1.1.7-alpha-2
 
 ARG GPG_KEYS=177F4010FE56CA3336300305F1656F24C74CD1D8
 # pub   rsa4096 2016-03-30 [SC]
@@ -52,10 +54,10 @@ RUN set -eux; \
 	mkdir -p /home/mysql/canal-server; \
 	mkdir -p /home/mysql/canal-adapter; \
 	dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')"; \
-	wget -q -O /home/mysql/canal-server.tar.gz "https://github.com/alibaba/canal/releases/download/canal-$CANAL_TAG/canal.deployer-$CANAL_VERSION.tar.gz"; \ 
+	wget -q -O /home/mysql/canal-server.tar.gz "https://github.com/alibaba/canal/releases/download/canal-$CANAL_DEPLOYER_TAG/canal.deployer-$CANAL_VERSION.tar.gz"; \ 
 	tar zxvf /home/mysql/canal-server.tar.gz -C /home/mysql/canal-server/; \
 	rm -rf /home/mysql/canal-server.tar.gz; \
-	wget -q -O /home/mysql/canal-adapter.tar.gz "https://github.com/alibaba/canal/releases/download/canal-$CANAL_TAG/canal.adapter-$CANAL_VERSION.tar.gz"; \
+	wget -q -O /home/mysql/canal-adapter.tar.gz "https://github.com/alibaba/canal/releases/download/canal-$CANAL_ADAPTER_TAG/canal.adapter-$CANAL_VERSION.tar.gz"; \
 	tar zxvf /home/mysql/canal-adapter.tar.gz -C /home/mysql/canal-adapter/; \
 	rm -rf /home/mysql/canal-adapter.tar.gz; \
 	wget -q -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch"; \
