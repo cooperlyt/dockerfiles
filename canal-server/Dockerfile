@@ -12,6 +12,7 @@ RUN groupadd -r mysql && useradd -r -g mysql mysql
 # gosu key is B42F6819007F00F88E364FD4036A9C25BF357DD4
 ENV GOSU_VERSION 1.14
 
+# 1.1.7 has bug https://github.com/alibaba/canal/issues/4796
 ENV CANAL_VERSION 1.1.6
 
 ENV CANAL_TAG 1.1.6-hotfix-1
