@@ -30,6 +30,10 @@ ARG GPG_KEYS=177F4010FE56CA3336300305F1656F24C74CD1D8
 # install "xz-utils" for .sql.xz docker-entrypoint-initdb.d files
 # install "zstd" for .sql.zst docker-entrypoint-initdb.d files
 # hadolint ignore=SC2086
+
+# from local build
+COPY canal-adapter-alpha-3  /home/mysql/canal-adapter
+
 RUN set -eux; \
 	apt-get update; \
 	DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
@@ -57,9 +61,9 @@ RUN set -eux; \
 	wget -q -O /home/mysql/canal-server.tar.gz "https://github.com/alibaba/canal/releases/download/canal-$CANAL_DEPLOYER_TAG/canal.deployer-$CANAL_VERSION.tar.gz"; \ 
 	tar zxvf /home/mysql/canal-server.tar.gz -C /home/mysql/canal-server/; \
 	rm -rf /home/mysql/canal-server.tar.gz; \
-	wget -q -O /home/mysql/canal-adapter.tar.gz "https://github.com/alibaba/canal/releases/download/canal-$CANAL_ADAPTER_TAG/canal.adapter-$CANAL_VERSION.tar.gz"; \
-	tar zxvf /home/mysql/canal-adapter.tar.gz -C /home/mysql/canal-adapter/; \
-	rm -rf /home/mysql/canal-adapter.tar.gz; \
+	# wget -q -O /home/mysql/canal-adapter.tar.gz "https://github.com/alibaba/canal/releases/download/canal-$CANAL_ADAPTER_TAG/canal.adapter-$CANAL_VERSION.tar.gz"; \
+	# tar zxvf /home/mysql/canal-adapter.tar.gz -C /home/mysql/canal-adapter/; \
+	# rm -rf /home/mysql/canal-adapter.tar.gz; \
 	rm -rf /home/mysql/canal-adapter/conf/es6/*.yml; \
 	rm -rf /home/mysql/canal-adapter/conf/es7/*.yml; \
 	rm -rf /home/mysql/canal-adapter/conf/es8/*.yml; \
