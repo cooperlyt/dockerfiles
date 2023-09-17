@@ -15,7 +15,7 @@ ENV GOSU_VERSION 1.14
 # 1.1.7 has bug https://github.com/alibaba/canal/issues/4796
 ENV CANAL_VERSION 1.1.7-SNAPSHOT
 
-ENV CANAL_ADAPTER_TAG 1.1.7-alpha-3
+ENV CANAL_ADAPTER_TAG 1.1.7-alpha-2
 
 ENV CANAL_DEPLOYER_TAG 1.1.7-alpha-3
 
