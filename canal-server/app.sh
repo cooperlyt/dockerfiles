@@ -122,7 +122,7 @@ function start_canal() {
 
         sleep 5
         #check start
-        checkStart "canal-server" "nc -v -z -w 1 127.0.0.1 11112 &> /dev/null && echo 'Port is Open' || echo ''" 30
+        checkStart "canal-server" "nc -v -z -w 1 127.0.0.1 11111 &> /dev/null && echo 'Port is Open' || echo ''" 30
     fi  
 }
 
