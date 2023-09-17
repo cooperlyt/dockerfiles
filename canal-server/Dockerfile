@@ -60,6 +60,13 @@ RUN set -eux; \
 	wget -q -O /home/mysql/canal-adapter.tar.gz "https://github.com/alibaba/canal/releases/download/canal-$CANAL_ADAPTER_TAG/canal.adapter-$CANAL_VERSION.tar.gz"; \
 	tar zxvf /home/mysql/canal-adapter.tar.gz -C /home/mysql/canal-adapter/; \
 	rm -rf /home/mysql/canal-adapter.tar.gz; \
+	rm -rf /home/mysql/canal-adapter/conf/es6/*.yml; \
+	rm -rf /home/mysql/canal-adapter/conf/es7/*.yml; \
+	rm -rf /home/mysql/canal-adapter/conf/es8/*.yml; \
+	rm -rf /home/mysql/canal-adapter/conf/hbase/*.yml; \
+	rm -rf /home/mysql/canal-adapter/conf/kudu/*.yml; \
+	rm -rf /home/mysql/canal-adapter/conf/rdb/*.yml; \
+	rm -rf /home/mysql/canal-adapter/conf/tablestore/*.yml; \
 	wget -q -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch"; \
 	wget -q -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc"; \
 	GNUPGHOME="$(mktemp -d)"; \
