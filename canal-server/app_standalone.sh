@@ -198,7 +198,7 @@ start_canal_adapter
 
 echo "==> START SUCCESSFUL ..."
 
-tail -f /home/mysql/canal-adapter/logs/adapter/adapter.log | tee -a /home/mysql/canal-server/logs/house_record/house_record.log &
+tail -f /home/canal/canal-adapter/logs/adapter/adapter.log | tee -a /home/canal/canal-server/logs/house_record/house_record.log &
 # tail -f /dev/null &
 # wait TERM signal
 waitterm
