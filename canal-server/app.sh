@@ -188,20 +188,10 @@ function stop_exporter() {
     su canal -c 'killall node_exporter'
 }
 
-function start_mariadb(){
-    echo "start mariadb $@"
-
-    bash /home/canal/mariadb-entrypoint.sh "$@" 1>>/tmp/start.log 2>&1 &
-
-    sleep 5
-    checkStart "mariadb" "nc -v -z -w 1 127.0.0.1 3306 &> /dev/null && echo 'Port is Open' || echo ''" 30
-    echo "start mariadb successful ..."
-
-}
 
 echo "==> START ..."
 
-# start_mariadb "$@"
+
 # start_exporter
 start_canal
 
