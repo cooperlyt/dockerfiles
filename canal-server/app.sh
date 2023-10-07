@@ -4,8 +4,8 @@ shopt -s nullglob
 
 source /etc/profile
 touch /tmp/start.log
-chown mysql: /tmp/start.log
-chown -R mysql: /home/mysql/canal-server
+chown canal: /tmp/start.log
+chown -R canal: /home/canal/canal-server
 host=`hostname -i`
 
 # waitterm
@@ -57,7 +57,7 @@ function checkStart() {
     cost=5
     while [ $timeout -gt 0 ]; do
         ST=`eval $cmd`
-        echo "check $name result: $ST"
+        echo "waiting $name : $ST"
         if [ "$ST" == "0" ]; then
             sleep 1
             let timeout=timeout-1
@@ -201,7 +201,7 @@ function start_mariadb(){
 
 echo "==> START ..."
 
-start_mariadb "$@"
+# start_mariadb "$@"
 # start_exporter
 start_canal
 
