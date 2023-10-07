@@ -83,7 +83,7 @@ function start_canal() {
         if [ -z "$adminPort" ] ; then
             adminPort=11110
         fi
-        bash /home/mysql/canal-server/bin/restart.sh local 1>>/tmp/start.log 2>&1
+        bash /home/canal/canal-server/bin/restart.sh local 1>>/tmp/start.log 2>&1
         sleep 5
         #check start
         checkStart "canal" "nc 127.0.0.1 $adminPort -w 1 -z | wc -l" 30
@@ -111,14 +111,14 @@ function start_canal() {
             fi
         else
             if [ "$destination" != "" ] && [ "$destination" != "example" ] ; then
-                if [ -d /home/mysql/canal-server/conf/example ]; then
-                    mv /home/mysql/canal-server/conf/example /home/mysql/canal-server/conf/$destination
+                if [ -d /home/canal/canal-server/conf/example ]; then
+                    mv /home/canal/canal-server/conf/example /home/canal/canal-server/conf/$destination
                 fi
             fi 
         fi
 
-        bash /home/mysql/canal-server/bin/stop.sh 1>>/tmp/start.log 2>&1
-        bash /home/mysql/canal-server/bin/startup.sh 1>>/tmp/start.log 2>&1
+        bash /home/canal/canal-server/bin/stop.sh 1>>/tmp/start.log 2>&1
+        bash /home/canal/canal-server/bin/startup.sh 1>>/tmp/start.log 2>&1
 
         sleep 5
         #check start
@@ -143,28 +143,28 @@ function splitDestinations() {
 
     for var in ${array[@]}
     do
-        cp -r /home/mysql/canal-server/conf/example /home/mysql/canal-server/conf/$prefix$var
-        chown mysql:mysql -R /home/mysql/canal-server/conf/$prefix$var
+        cp -r /home/canal/canal-server/conf/example /home/canal/canal-server/conf/$prefix$var
+        chown canal:canal -R /home/canal/canal-server/conf/$prefix$var
         if [[ "$prefix$var" = 'example' ]] ; then
             holdExample="true"
         fi
     done
     if [[ "$holdExample" != 'true' ]] ; then
-        rm -rf /home/mysql/canal-server/conf/example
+        rm -rf /home/canal/canal-server/conf/example
     fi
 }
 
 function stop_canal() {
     echo "stop canal server"
-    bash /home/mysql/canal-server/bin/stop.sh 1>>/tmp/start.log 2>&1
+    bash /home/canal/canal-server/bin/stop.sh 1>>/tmp/start.log 2>&1
     echo "stop canal server successful ..."
 }
 
 function start_canal_adapter(){
     echo "start canal adapter..."
     
-    bash /home/mysql/canal-adapter/bin/stop.sh 1>>/tmp/start.log 2>&1
-    bash /home/mysql/canal-adapter/bin/startup.sh 1>>/tmp/start.log 2>&1
+    bash /home/canal/canal-adapter/bin/stop.sh 1>>/tmp/start.log 2>&1
+    bash /home/canal/canal-adapter/bin/startup.sh 1>>/tmp/start.log 2>&1
 
     sleep 5
         #check start
@@ -176,22 +176,22 @@ function start_canal_adapter(){
 
 function stop_canal_adapter(){
     echo "stop canal adapter"
-    bash /home/mysql/canal-adapter/bin/stop.sh 1>>/tmp/start.log 2>&1
+    bash /home/canal/canal-adapter/bin/stop.sh 1>>/tmp/start.log 2>&1
     echo "stop canal adapter successful ..."
 }
 
 function start_exporter() {
-    su mysql -c 'cd /home/mysql/node_exporter && ./node_exporter 1>>/tmp/start.log 2>&1 &'
+    su canal -c 'cd /home/canal/node_exporter && ./node_exporter 1>>/tmp/start.log 2>&1 &'
 }
 
 function stop_exporter() {
-    su mysql -c 'killall node_exporter'
+    su canal -c 'killall node_exporter'
 }
 
 function start_mariadb(){
     echo "start mariadb $@"
 
-    bash /home/mysql/mariadb-entrypoint.sh "$@" 1>>/tmp/start.log 2>&1 &
+    bash /home/canal/mariadb-entrypoint.sh "$@" 1>>/tmp/start.log 2>&1 &
 
     sleep 5
     checkStart "mariadb" "nc -v -z -w 1 127.0.0.1 3306 &> /dev/null && echo 'Port is Open' || echo ''" 30
