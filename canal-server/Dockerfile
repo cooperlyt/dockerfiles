@@ -96,7 +96,7 @@ RUN mkdir -p /home/canal/canal-server; \
 
 # VOLUME /var/lib/mysql
 
-COPY app_server_adapter.sh /home/canal/app.sh
+COPY app_standalone.sh /home/canal/app.sh
 
 
 RUN chown canal: /home/canal/app.sh && \

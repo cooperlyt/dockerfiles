@@ -57,7 +57,7 @@ function checkStart() {
     cost=5
     while [ $timeout -gt 0 ]; do
         ST=`eval $cmd`
-        echo "waiting $name : $ST"
+        echo "check $name result: $ST"
         if [ "$ST" == "0" ]; then
             sleep 1
             let timeout=timeout-1
@@ -191,7 +191,6 @@ function stop_exporter() {
 
 echo "==> START ..."
 
-
 # start_exporter
 start_canal
 
@@ -199,7 +198,7 @@ start_canal_adapter
 
 echo "==> START SUCCESSFUL ..."
 
-tail -f /home/canal/canal-adapter/logs/adapter/adapter.log | tee -a /home/canal/canal-server/logs/house_record/house_record.log &
+tail -f /home/mysql/canal-adapter/logs/adapter/adapter.log | tee -a /home/mysql/canal-server/logs/house_record/house_record.log &
 # tail -f /dev/null &
 # wait TERM signal
 waitterm
