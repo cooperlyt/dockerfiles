@@ -65,15 +65,15 @@ RUN set -eux; \
 ENV LANG C.UTF-8
 
 
-ENV CANAL_VERSION 1.1.7-SNAPSHOT
+ENV CANAL_VERSION 1.1.7
 
-ENV CANAL_ADAPTER_TAG 1.1.7-alpha-3
+ENV CANAL_ADAPTER_TAG 1.1.7
 
-ENV CANAL_DEPLOYER_TAG 1.1.7-alpha-3
+ENV CANAL_DEPLOYER_TAG 1.1.7
 
 
 # from local build
-COPY canal-adapter-alpha-3  /home/canal/canal-adapter
+# COPY canal-adapter-alpha-3  /home/canal/canal-adapter
 
 
 RUN mkdir -p /home/canal/canal-server; \
@@ -81,9 +81,9 @@ RUN mkdir -p /home/canal/canal-server; \
   wget -q -O /home/canal/canal-server.tar.gz "https://github.com/alibaba/canal/releases/download/canal-$CANAL_DEPLOYER_TAG/canal.deployer-$CANAL_VERSION.tar.gz"; \ 
 	tar zxvf /home/canal/canal-server.tar.gz -C /home/canal/canal-server/; \
 	rm -rf /home/canal/canal-server.tar.gz; \
-	# wget -q -O /home/canal/canal-adapter.tar.gz "https://github.com/alibaba/canal/releases/download/canal-$CANAL_ADAPTER_TAG/canal.adapter-$CANAL_VERSION.tar.gz"; \
-	# tar zxvf /home/canal/canal-adapter.tar.gz -C /home/canal/canal-adapter/; \
-	# rm -rf /home/canal/canal-adapter.tar.gz; \
+	wget -q -O /home/canal/canal-adapter.tar.gz "https://github.com/alibaba/canal/releases/download/canal-$CANAL_ADAPTER_TAG/canal.adapter-$CANAL_VERSION.tar.gz"; \
+	tar zxvf /home/canal/canal-adapter.tar.gz -C /home/canal/canal-adapter/; \
+	rm -rf /home/canal/canal-adapter.tar.gz; \
 	rm -rf /home/canal/canal-adapter/conf/es6/*.yml; \
 	rm -rf /home/canal/canal-adapter/conf/es7/*.yml; \
 	rm -rf /home/canal/canal-adapter/conf/es8/*.yml; \
