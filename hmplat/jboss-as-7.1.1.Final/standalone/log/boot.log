@@ -1,0 +1,101 @@
+12:12:24,061 信息    [org.jboss.modules] JBoss Modules version 1.1.1.GA
+12:12:25,170 INFO  [org.jboss.msc] JBoss MSC version 1.0.2.GA
+12:12:25,203 INFO  [org.jboss.as] JBAS015899: JBoss AS 7.1.1.Final "Brontes" starting
+12:12:25,204 DEBUG [org.jboss.as.config] Configured system properties:
+	[Standalone] = 
+	awt.toolkit = sun.awt.X11.XToolkit
+	file.encoding = UTF-8
+	file.encoding.pkg = sun.io
+	file.separator = /
+	java.awt.graphicsenv = sun.awt.X11GraphicsEnvironment
+	java.awt.headless = true
+	java.awt.printerjob = sun.print.PSPrinterJob
+	java.class.path = /opt/jboss-as-7.1.1.Final/jboss-modules.jar
+	java.class.version = 51.0
+	java.endorsed.dirs = /usr/java/jdk1.7.0_80/jre/lib/endorsed
+	java.ext.dirs = /usr/java/jdk1.7.0_80/jre/lib/ext:/usr/java/packages/lib/ext
+	java.home = /usr/java/jdk1.7.0_80/jre
+	java.io.tmpdir = /tmp
+	java.library.path = /usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib
+	java.net.preferIPv4Stack = true
+	java.runtime.name = Java(TM) SE Runtime Environment
+	java.runtime.version = 1.7.0_80-b15
+	java.specification.name = Java Platform API Specification
+	java.specification.vendor = Oracle Corporation
+	java.specification.version = 1.7
+	java.util.logging.manager = org.jboss.logmanager.LogManager
+	java.vendor = Oracle Corporation
+	java.vendor.url = http://java.oracle.com/
+	java.vendor.url.bug = http://bugreport.sun.com/bugreport/
+	java.version = 1.7.0_80
+	java.vm.info = mixed mode
+	java.vm.name = Java HotSpot(TM) 64-Bit Server VM
+	java.vm.specification.name = Java Virtual Machine Specification
+	java.vm.specification.vendor = Oracle Corporation
+	java.vm.specification.version = 1.7
+	java.vm.vendor = Oracle Corporation
+	java.vm.version = 24.80-b11
+	javax.management.builder.initial = org.jboss.as.jmx.PluggableMBeanServerBuilder
+	javax.xml.datatype.DatatypeFactory = __redirected.__DatatypeFactory
+	javax.xml.parsers.DocumentBuilderFactory = __redirected.__DocumentBuilderFactory
+	javax.xml.parsers.SAXParserFactory = __redirected.__SAXParserFactory
+	javax.xml.stream.XMLEventFactory = __redirected.__XMLEventFactory
+	javax.xml.stream.XMLInputFactory = __redirected.__XMLInputFactory
+	javax.xml.stream.XMLOutputFactory = __redirected.__XMLOutputFactory
+	javax.xml.transform.TransformerFactory = __redirected.__TransformerFactory
+	javax.xml.validation.SchemaFactory:http://www.w3.org/2001/XMLSchema = __redirected.__SchemaFactory
+	javax.xml.xpath.XPathFactory:http://java.sun.com/jaxp/xpath/dom = __redirected.__XPathFactory
+	jboss.home.dir = /opt/jboss-as-7.1.1.Final
+	jboss.host.name = localhost
+	jboss.modules.dir = /opt/jboss-as-7.1.1.Final/modules
+	jboss.modules.system.pkgs = org.jboss.byteman
+	jboss.node.name = localhost
+	jboss.qualified.host.name = localhost.localdomain
+	jboss.server.base.dir = /opt/jboss-as-7.1.1.Final/standalone
+	jboss.server.config.dir = /opt/jboss-as-7.1.1.Final/standalone/configuration
+	jboss.server.data.dir = /opt/jboss-as-7.1.1.Final/standalone/data
+	jboss.server.default.config = standalone.xml
+	jboss.server.deploy.dir = /opt/jboss-as-7.1.1.Final/standalone/data/content
+	jboss.server.log.dir = /opt/jboss-as-7.1.1.Final/standalone/log
+	jboss.server.name = localhost
+	jboss.server.temp.dir = /opt/jboss-as-7.1.1.Final/standalone/tmp
+	line.separator = 
+
+	logging.configuration = file:/opt/jboss-as-7.1.1.Final/standalone/configuration/logging.properties
+	module.path = /opt/jboss-as-7.1.1.Final/modules
+	org.jboss.boot.log.file = /opt/jboss-as-7.1.1.Final/standalone/log/boot.log
+	org.jboss.resolver.warning = true
+	org.xml.sax.driver = __redirected.__XMLReaderFactory
+	os.arch = amd64
+	os.name = Linux
+	os.version = 3.10.0-514.2.2.el7.x86_64
+	path.separator = :
+	sun.arch.data.model = 64
+	sun.boot.class.path = /usr/java/jdk1.7.0_80/jre/lib/resources.jar:/usr/java/jdk1.7.0_80/jre/lib/rt.jar:/usr/java/jdk1.7.0_80/jre/lib/sunrsasign.jar:/usr/java/jdk1.7.0_80/jre/lib/jsse.jar:/usr/java/jdk1.7.0_80/jre/lib/jce.jar:/usr/java/jdk1.7.0_80/jre/lib/charsets.jar:/usr/java/jdk1.7.0_80/jre/lib/jfr.jar:/usr/java/jdk1.7.0_80/jre/classes
+	sun.boot.library.path = /usr/java/jdk1.7.0_80/jre/lib/amd64
+	sun.cpu.endian = little
+	sun.cpu.isalist = 
+	sun.io.unicode.encoding = UnicodeLittle
+	sun.java.command = /opt/jboss-as-7.1.1.Final/jboss-modules.jar -mp /opt/jboss-as-7.1.1.Final/modules -jaxpmodule javax.xml.jaxp-provider org.jboss.as.standalone -Djboss.home.dir=/opt/jboss-as-7.1.1.Final
+	sun.java.launcher = SUN_STANDARD
+	sun.jnu.encoding = UTF-8
+	sun.management.compiler = HotSpot 64-Bit Tiered Compilers
+	sun.os.patch.level = unknown
+	sun.rmi.dgc.client.gcInterval = 3600000
+	sun.rmi.dgc.server.gcInterval = 3600000
+	user.country = CN
+	user.dir = /
+	user.home = /opt/jboss-as-7.1.1.Final
+	user.language = zh
+	user.name = jboss
+	user.timezone = Asia/Shanghai
+12:12:25,208 DEBUG [org.jboss.as.config] VM Arguments: -D[Standalone] -XX:+UseCompressedOops -XX:+TieredCompilation -Xms2048m -Xmx2500m -XX:MaxNewSize=512m -XX:+UseParallelGC -XX:ParallelGCThreads=16 -XX:+UseParallelOldGC -XX:MaxPermSize=512m -Djava.net.preferIPv4Stack=true -Dorg.jboss.resolver.warning=true -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000 -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true -Djboss.server.default.config=standalone.xml -Dorg.jboss.boot.log.file=/opt/jboss-as-7.1.1.Final/standalone/log/boot.log -Dlogging.configuration=file:/opt/jboss-as-7.1.1.Final/standalone/configuration/logging.properties 
+12:12:26,799 INFO  [org.xnio] XNIO Version 3.0.3.GA
+12:12:26,801 INFO  [org.jboss.as.server] JBAS015888: Creating http management service using socket-binding (management-http)
+12:12:26,818 INFO  [org.xnio.nio] XNIO NIO Implementation Version 3.0.3.GA
+12:12:26,835 INFO  [org.jboss.remoting] JBoss Remoting version 3.2.3.GA
+12:12:26,845 INFO  [org.jboss.as.configadmin] JBAS016200: Activating ConfigAdmin Subsystem
+12:12:26,928 INFO  [org.jboss.as.clustering.infinispan] JBAS010280: Activating Infinispan subsystem.
+12:12:26,956 INFO  [org.jboss.as.osgi] JBAS011940: Activating OSGi Subsystem
+12:12:26,956 INFO  [org.jboss.as.naming] JBAS011800: Activating Naming Subsystem
+12:12:26,949 INFO  [org.jboss.as.logging] JBAS011502: Removing bootstrap log handlers

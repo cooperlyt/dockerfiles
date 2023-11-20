@@ -1,4 +1,4 @@
-FROM elasticsearch:8.9.0
+FROM elasticsearch:8.10.4
 
 # RUN cd /usr/share/elasticsearch/plugins &&\
 #   mkdir ik &&\
@@ -7,4 +7,4 @@ FROM elasticsearch:8.9.0
 # COPY elasticsearch-analysis-ik-7/ /usr/share/elasticsearch/plugins/ik/
 
 RUN cd /usr/share/elasticsearch/bin &&\
- ./elasticsearch-plugin install --batch https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v8.9.0/elasticsearch-analysis-ik-8.9.0.zip
+ ./elasticsearch-plugin install --batch https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v8.10.4/elasticsearch-analysis-ik-8.10.4.zip
