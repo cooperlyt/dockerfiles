@@ -20,6 +20,7 @@ RUN mv /tmp/keycloak/keycloak-* /opt/keycloak && mkdir -p /opt/keycloak/data
 RUN chmod -R g+rwX /opt/keycloak
 
 
+# 官方镜像在 VM服务器上运行报错：  Fatal glibc error: CPU does not support x86-64-v2
 
 FROM ibm-semeru-runtimes:open-17-jre
 ENV LANG en_US.UTF-8
