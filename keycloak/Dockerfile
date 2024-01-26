@@ -1,6 +1,6 @@
 FROM ibm-semeru-runtimes:open-17-jre AS ubi-micro-build
 
-ENV KEYCLOAK_VERSION 21.1.2
+ENV KEYCLOAK_VERSION 22.0.5
 ARG KEYCLOAK_DIST=https://github.com/keycloak/keycloak/releases/download/$KEYCLOAK_VERSION/keycloak-$KEYCLOAK_VERSION.tar.gz
 
 RUN apt-get -y update && apt-get -y upgrade \
